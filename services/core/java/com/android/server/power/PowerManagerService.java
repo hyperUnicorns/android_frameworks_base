@@ -134,6 +134,7 @@ public final class PowerManagerService extends SystemService
     private static final int MSG_SCREEN_BRIGHTNESS_BOOST_TIMEOUT = 3;
     // Message: Polling to look for long held wake locks.
     private static final int MSG_CHECK_FOR_LONG_WAKELOCKS = 4;
+    private static final int MSG_WAKE_UP = 5;
 
     private static final int MSG_WAKE_UP = 5;
 
@@ -225,7 +226,8 @@ public final class PowerManagerService extends SystemService
     // File location for last reboot reason
     private static final String LAST_REBOOT_LOCATION = "/data/misc/reboot/last_reboot_reason";
 
-    private static final float PROXIMITY_NEAR_THRESHOLD = 5.0f;
+    // Max time allowed for proximity check
+    private static final int MAX_PROXIMITY_WAIT = 200;
 
     private final Context mContext;
     private final ServiceThread mHandlerThread;
@@ -645,16 +647,9 @@ public final class PowerManagerService extends SystemService
     private static native void nativeSendPowerHint(int hintId, int data);
     private static native void nativeSetFeature(int featureId, int data);
 
-    // Whether proximity check on wake is enabled by default
-    private boolean mProximityWakeEnabledByDefaultConfig;
-
-    private boolean mProximityWakeSupported;
-    private boolean mProximityWakeEnabled;
-    private int mProximityTimeOut;
     private SensorManager mSensorManager;
     private Sensor mProximitySensor;
-    private SensorEventListener mProximityListener;
-    private android.os.PowerManager.WakeLock mProximityWakeLock;
+    private boolean mProximityWake;
 
     public PowerManagerService(Context context) {
         super(context);
@@ -663,6 +658,8 @@ public final class PowerManagerService extends SystemService
                 Process.THREAD_PRIORITY_DISPLAY, false /*allowIo*/);
         mHandlerThread.start();
         mHandler = new PowerManagerHandler(mHandlerThread.getLooper());
+        mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
+        mProximitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         mConstants = new Constants(mHandler);
         mAmbientDisplayConfiguration = new AmbientDisplayConfiguration(mContext);
         mBatterySaverPolicy = new BatterySaverPolicy(mHandler);
@@ -836,6 +833,9 @@ public final class PowerManagerService extends SystemService
         resolver.registerContentObserver(Settings.System.getUriFor(
                 Settings.System.WAKE_WHEN_PLUGGED_OR_UNPLUGGED),
                 false, mSettingsObserver, UserHandle.USER_ALL);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.PROXIMITY_ON_WAKE),
+                false, mSettingsObserver, UserHandle.USER_ALL);
         IVrManager vrManager = (IVrManager) getBinderService(Context.VR_SERVICE);
         if (vrManager != null) {
             try {
@@ -994,9 +994,8 @@ public final class PowerManagerService extends SystemService
             updateLowPowerModeLocked();
         }
 
-        mProximityWakeEnabled = Settings.System.getInt(resolver,
-                Settings.System.PROXIMITY_ON_WAKE,
-                mProximityWakeEnabledByDefaultConfig ? 1 : 0) == 1;
+        mProximityWake = Settings.System.getInt(resolver,
+                Settings.System.PROXIMITY_ON_WAKE, 0) == 1;
 
         mDirty |= DIRTY_SETTINGS;
     }
@@ -3874,7 +3873,6 @@ public final class PowerManagerService extends SystemService
                     checkForLongWakeLocks();
                     break;
                 case MSG_WAKE_UP:
-                    cleanupProximity();
                     ((Runnable) msg.obj).run();
                     break;
             }
@@ -4294,6 +4292,7 @@ public final class PowerManagerService extends SystemService
             }
         }
 
+
         @Override // Binder call
         public void wakeUp(long eventTime, String reason, String opPackageName) {
             wakeUp(eventTime, reason, opPackageName, false);
@@ -4328,11 +4327,7 @@ public final class PowerManagerService extends SystemService
                     }
                 }
             };
-            if (checkProximity) {
-                runWithProximityCheck(r);
-            } else {
-                r.run();
-            }
+            runWithProximityCheck(r);
         }
 
         @Override // Binder call
@@ -4834,37 +4829,15 @@ public final class PowerManagerService extends SystemService
         }
     }
 
-    private void cleanupProximity() {
-        synchronized (mProximityWakeLock) {
-            cleanupProximityLocked();
-        }
-    }
-
-    private void cleanupProximityLocked() {
-        if (mProximityWakeLock.isHeld()) {
-            mProximityWakeLock.release();
-        }
-        if (mProximityListener != null) {
-            mSensorManager.unregisterListener(mProximityListener);
-            mProximityListener = null;
-        }
-    }
-
     private void runWithProximityCheck(final Runnable r) {
         if (mHandler.hasMessages(MSG_WAKE_UP)) {
-            // A message is already queued
+            // There is already a message queued;
             return;
         }
-
-        final TelephonyManager tm =
-                (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        final boolean hasIncomingCall = tm.getCallState() == TelephonyManager.CALL_STATE_RINGING;
-
-        if (mProximityWakeSupported && mProximityWakeEnabled
-                && mProximitySensor != null && !hasIncomingCall) {
+        if (mProximityWake && mProximitySensor != null) {
             final Message msg = mHandler.obtainMessage(MSG_WAKE_UP);
             msg.obj = r;
-            mHandler.sendMessageDelayed(msg, mProximityTimeOut);
+            mHandler.sendMessageDelayed(msg, MAX_PROXIMITY_WAIT);
             runPostProximityCheck(r);
         } else {
             r.run();
@@ -4876,33 +4849,24 @@ public final class PowerManagerService extends SystemService
             r.run();
             return;
         }
-        synchronized (mProximityWakeLock) {
-            mProximityWakeLock.acquire();
-            mProximityListener = new SensorEventListener() {
-                @Override
-                public void onSensorChanged(SensorEvent event) {
-                    cleanupProximityLocked();
-                    if (!mHandler.hasMessages(MSG_WAKE_UP)) {
-                        Slog.w(TAG, "Proximity sensor took too long, wake event already triggered!");
-                        return;
-                    }
-                    mHandler.removeMessages(MSG_WAKE_UP);
-                    final float distance = event.values[0];
-                    if (distance >= PROXIMITY_NEAR_THRESHOLD ||
-                            distance >= mProximitySensor.getMaximumRange()) {
-                        r.run();
-                    } else {
-                        Slog.w(TAG, "Not waking up. Proximity sensor is blocked.");
-                    }
+        mSensorManager.registerListener(new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                if (!mHandler.hasMessages(MSG_WAKE_UP)) {
+                    // The sensor took too long to return and
+                    // the wake event already triggered.
+                    return;
                 }
+                mHandler.removeMessages(MSG_WAKE_UP);
+                if (event.values[0] == mProximitySensor.getMaximumRange()) {
+                    r.run();
+                }
+                mSensorManager.unregisterListener(this);
+            }
 
-                @Override
-                public void onAccuracyChanged(Sensor sensor, int accuracy) {
-                    // Do nothing
-                }
-            };
-            mSensorManager.registerListener(mProximityListener,
-                   mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
-        }
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+
+        }, mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 }
