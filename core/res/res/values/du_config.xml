@@ -107,4 +107,7 @@
     <integer name="config_keyboardBrightnessSettingDefault">0</integer>
     <bool name="config_deviceHasVariableButtonBrightness">false</bool>
 
+    <!-- Automatic brightness enhancements -->
+    <integer name="config_autoBrightnessBrighteningLightFastDebounce">500</integer>
+
 </resources>
