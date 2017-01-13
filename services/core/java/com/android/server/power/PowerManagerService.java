@@ -114,8 +114,6 @@ public final class PowerManagerService extends SystemService
     // Message: Polling to look for long held wake locks.
     private static final int MSG_CHECK_FOR_LONG_WAKELOCKS = 4;
 
-    private static final float PROXIMITY_NEAR_THRESHOLD = 5.0f;
-
     private static final int MSG_WAKE_UP = 5;
 
     // Dirty bit: mWakeLocks changed
