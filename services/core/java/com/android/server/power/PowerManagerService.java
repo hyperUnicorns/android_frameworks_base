@@ -519,6 +519,9 @@ public final class PowerManagerService extends SystemService
     // True if we are currently in light device idle mode.
     private boolean mLightDeviceIdleMode;
 
+    // overrule and disable brightness for buttons
+    private boolean mHardwareKeysDisable = false;
+
     // Set of app ids that we will always respect the wake locks for.
     int[] mDeviceIdleWhitelist = new int[0];
 
@@ -759,6 +762,9 @@ public final class PowerManagerService extends SystemService
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BUTTON_BACKLIGHT_TIMEOUT),
                     false, mSettingsObserver, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.HARDWARE_KEYS_DISABLE),
+                    false, mSettingsObserver, UserHandle.USER_ALL);
 
             // Go.
             readConfigurationLocked();
@@ -913,6 +919,9 @@ public final class PowerManagerService extends SystemService
         mKeyboardBrightness = Settings.System.getIntForUser(resolver,
                 Settings.System.KEYBOARD_BRIGHTNESS, mKeyboardBrightnessSettingDefault,
                 UserHandle.USER_CURRENT);
+        mHardwareKeysDisable = Settings.Secure.getIntForUser(resolver,
+                Settings.Secure.HARDWARE_KEYS_DISABLE, 0,
+                UserHandle.USER_CURRENT) != 0;
 
         mDirty |= DIRTY_SETTINGS;
     }
@@ -1877,14 +1886,18 @@ public final class PowerManagerService extends SystemService
                             + screenOffTimeout - screenDimDuration;
                     if (now < nextTimeout) {
                         int buttonBrightness, keyboardBrightness;
-                        if (mButtonBrightnessOverrideFromWindowManager >= 0) {
+                        if (mHardwareKeysDisable) {
+                                buttonBrightness = 0;
+                                keyboardBrightness = 0;
+                        } else {
+                     if (mButtonBrightnessOverrideFromWindowManager >= 0) {
                             buttonBrightness = mButtonBrightnessOverrideFromWindowManager;
                             keyboardBrightness = mButtonBrightnessOverrideFromWindowManager;
                         } else {
                             buttonBrightness = mButtonBrightness;
                             keyboardBrightness = mKeyboardBrightness;
                         }
-
+                    }
                         mKeyboardLight.setBrightness(mKeyboardVisible ? keyboardBrightness : 0);
                         if (mButtonTimeout != 0 && now > mLastUserActivityTime + mButtonTimeout) {
                              mButtonsLight.setBrightness(0);
