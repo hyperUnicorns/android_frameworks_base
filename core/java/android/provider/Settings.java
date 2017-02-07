@@ -4371,6 +4371,12 @@ public final class Settings {
         public static final String HEADS_UP_TIMEOUT = "heads_up_timeout";
 
         /**
+         * Whether to show statusbar clock in the keyguard
+         * @hide
+         */
+        public static final String KEYGUARD_SHOW_CLOCK = "keyguard_show_clock";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
@@ -5899,12 +5905,6 @@ public final class Settings {
          * @hide
          */
         public static final String LOCK_QS_DISABLED = "lockscreen_qs_disabled";
-
-        /**
-         * Whether to show statusbar clock in the keyguard
-         * @hide
-         */
-        public static final String KEYGUARD_SHOW_CLOCK = "keyguard_show_clock";
 
         /**
          * Hide lockscreen bottom shortcuts
