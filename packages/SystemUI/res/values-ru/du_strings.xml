@@ -38,12 +38,11 @@
   <string name="systemui_tuner_statusbar_title">Иконки строки состояния</string>
   <string name="systemui_tuner_pnc_title">Расширенное управление уведомлениями</string>
   <!-- Quick Settings tiles -->
-  <string name="quick_settings_screenshot_label">Скриншот</string>
+  <string name="quick_settings_screenshot_label">Снимок экрана</string>
   <string name="quick_settings_region_screenshot_label">Скриншот выбранной области экрана</string>
   <string name="quick_settings_adb_network">ADB по сети</string>
   <string name="quick_settings_network_adb_enabled_label">Включено</string>
-  <string name="quick_settings_network_adb_disabled_label">Отключено</string>
-  <string name="quick_settings_sync_label">Синхр.</string>
+  <string name="quick_settings_sync_label">Синхронизация</string>
   <string name="accessibility_quick_settings_sync_off">Синхронизация выкл.</string>
   <string name="accessibility_quick_settings_sync_on">Синхронизация вкл.</string>
   <string name="accessibility_quick_settings_sync_changed_off">Синхронизация выключена</string>
@@ -54,7 +53,7 @@
   <string name="quick_settings_reboot_label">Перезагрузить</string>
   <string name="quick_settings_reboot_recovery_label">Восстановление</string>
   <string name="quick_settings_music_label">Музыка</string>
-  <string name="quick_settings_music_play">Старт</string>
+  <string name="quick_settings_music_play">Воспр</string>
   <string name="quick_settings_music_pause">Пауза</string>
   <string name="quick_settings_ime_tile_label">Метод ввода</string>
   <string name="quick_settings_caffeine_label">Запрет сна</string>
@@ -62,14 +61,27 @@
   <string name="accessibility_quick_settings_caffeine_on">Запрет сна вкл.</string>
   <string name="quick_settings_navigation_bar">Панель навигации</string>
   <string name="quick_settings_smartbar">SmartBar</string>
-  <string name="quick_settings_smartbar_off">SmartBar выкл.</string>
   <string name="quick_settings_fling">Fling</string>
-  <string name="quick_settings_fling_off">Fling выкл.</string>
   <string name="quick_settings_heads_up_label">Всплывающие уведомления</string>
   <string name="accessibility_quick_settings_heads_up_off">Всплывающие уведомления выключены</string>
   <string name="accessibility_quick_settings_heads_up_on">Всплывающие уведомления включены</string>
   <string name="accessibility_quick_settings_heads_up_changed_off">Всплывающие уведомления выключены</string>
   <string name="accessibility_quick_settings_heads_up_changed_on">Всплывающие уведомления включены</string>
+  <string name="quick_settings_doze_notifications_label">Doze уведомления</string>
+  <string name="quick_settings_nfc_label">NFC</string>
+  <string name="quick_settings_nfc_off">NFC выкл</string>
+  <string name="quick_settings_nfc_on">NFC вкл</string>
+  <string name="accessibility_quick_settings_location_battery_saving">Определение местоположения: по координатам сети.</string>
+  <string name="accessibility_quick_settings_location_gps_only">Определение местоположения: по спутникам GPS.</string>
+  <string name="accessibility_quick_settings_location_high_accuracy">Определение местоположения: по всем источникам.</string>
+  <string name="accessibility_quick_settings_location_changed_battery_saving">Служба отправки местоположения переключена в режим по координатам сети.</string>
+  <string name="accessibility_quick_settings_location_changed_gps_only">Для отправки местоположения используются только данные GPS.</string>
+  <string name="accessibility_quick_settings_location_changed_high_accuracy">Служба отправки местоположения переключена в режим высокой точности.</string>
+  <string name="quick_settings_location_detail_title">Определение местоположения</string>
+  <string name="quick_settings_location_battery_saving_label">По координатам сети</string>
+  <string name="quick_settings_location_gps_only_label">По спутникам GPS</string>
+  <string name="quick_settings_location_high_accuracy_label">По всем источникам</string>
+  <string name="quick_settings_location_off_custom_label">Location</string>
   <!-- Show lte/4g switch -->
   <string name="show_lte_fourgee_title">Показывать 4G вместо LTE</string>
   <string name="show_lte_fourgee_summary">Заменить значок LTE в строке состояния на 4G</string>
@@ -88,8 +100,11 @@
   <!-- Path data for portrait battery -->
   <!-- Path data for landscape battery -->
   <!-- Path data for circle battery -->
+  <!-- Path data for Solid battery -->
   <!-- Data/Wifi activity arrows -->
   <string name="data_wifi_activity_arrows_title">Индикаторы активности передачи данных</string>
   <string name="data_wifi_activity_arrows_summary_on">Отображать индикаторы активности передачи данных</string>
   <string name="data_wifi_activity_arrows_summary_off">Скрыть индикаторы активности передачи данных</string>
+  <!-- Recents memory bar -->
+  <string name="recents_free_ram">Доступно памяти</string>
 </resources>

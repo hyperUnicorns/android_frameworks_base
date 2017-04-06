@@ -42,7 +42,6 @@
   <string name="quick_settings_region_screenshot_label">Screenshot parziale</string>
   <string name="quick_settings_adb_network">ADB rete</string>
   <string name="quick_settings_network_adb_enabled_label">Attivata</string>
-  <string name="quick_settings_network_adb_disabled_label">Disattivata</string>
   <string name="quick_settings_sync_label">Sync</string>
   <string name="accessibility_quick_settings_sync_off">Sync off</string>
   <string name="accessibility_quick_settings_sync_on">Sync on</string>
@@ -62,14 +61,27 @@
   <string name="accessibility_quick_settings_caffeine_on">Caffeine on</string>
   <string name="quick_settings_navigation_bar">Barra di navigazione</string>
   <string name="quick_settings_smartbar">SmartBar</string>
-  <string name="quick_settings_smartbar_off">SmartBar disattivata</string>
   <string name="quick_settings_fling">Fling</string>
-  <string name="quick_settings_fling_off">Fling off</string>
   <string name="quick_settings_heads_up_label">Heads Up</string>
   <string name="accessibility_quick_settings_heads_up_off">Heads up disattivate</string>
   <string name="accessibility_quick_settings_heads_up_on">Heads up attivate</string>
   <string name="accessibility_quick_settings_heads_up_changed_off">Heads up disattivate</string>
   <string name="accessibility_quick_settings_heads_up_changed_on">Heads up attivate</string>
+  <string name="quick_settings_doze_notifications_label">Notifiche Doze</string>
+  <string name="quick_settings_nfc_label">NFC</string>
+  <string name="quick_settings_nfc_off">NFC spento</string>
+  <string name="quick_settings_nfc_on">NFC attivo</string>
+  <string name="accessibility_quick_settings_location_battery_saving">Geolocalizzazione: modalità risparmio batteria.</string>
+  <string name="accessibility_quick_settings_location_gps_only">Geolocalizzazione: modalità solo sensori.</string>
+  <string name="accessibility_quick_settings_location_high_accuracy">Geolocalizzazione: modalità alta precisione.</string>
+  <string name="accessibility_quick_settings_location_changed_battery_saving">Geolocalizzazione cambiata in modalità risparmio batteria.</string>
+  <string name="accessibility_quick_settings_location_changed_gps_only">Geolocalizzazione cambiata in modalità solo sensori.</string>
+  <string name="accessibility_quick_settings_location_changed_high_accuracy">Geolocalizzazione modificata in modalità ad alta precisione.</string>
+  <string name="quick_settings_location_detail_title">Modalità geolocalizzazione</string>
+  <string name="quick_settings_location_battery_saving_label">Risparmio batteria</string>
+  <string name="quick_settings_location_gps_only_label">Solo dispositivo</string>
+  <string name="quick_settings_location_high_accuracy_label">Alta precisione</string>
+  <string name="quick_settings_location_off_custom_label">Location</string>
   <!-- Show lte/4g switch -->
   <string name="show_lte_fourgee_title">Visualizza 4G invece di LTE</string>
   <string name="show_lte_fourgee_summary">Sostituisce l\'indicatore LTE nella barra di stato con 4G</string>
@@ -88,8 +100,11 @@
   <!-- Path data for portrait battery -->
   <!-- Path data for landscape battery -->
   <!-- Path data for circle battery -->
+  <!-- Path data for Solid battery -->
   <!-- Data/Wifi activity arrows -->
   <string name="data_wifi_activity_arrows_title">Frecce di attività dati/wifi</string>
   <string name="data_wifi_activity_arrows_summary_on">Visualizza indicatori di attività di traffico dati/wifi</string>
   <string name="data_wifi_activity_arrows_summary_off">Nascondi indicatori di attività di traffico dati/wifi</string>
+  <!-- Recents memory bar -->
+  <string name="recents_free_ram">RAM libera</string>
 </resources>

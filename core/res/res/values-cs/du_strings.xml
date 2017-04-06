@@ -61,4 +61,7 @@
   <string name="permlab_modifyOverlays">upravit překryvy motivů</string>
   <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
   <string name="permdesc_modifyOverlays">Umožňuje aplikaci provádět změny překrytí motivů pomocí OverlayManagerService</string>
+  <!-- One handed mode  -->
+  <string name="singlehandmode_click_hint_message">Pro odchod z mini zobrazení klepněte mimo obrazovku</string>
+  <string name="singlehandmode_slide_hint_message">Přejetím prstu přes navigační panel je možné přepínat mezi standardním a mini zobrazením</string>
 </resources>

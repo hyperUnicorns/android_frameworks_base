@@ -2554,8 +2554,8 @@ public class LocationManagerService extends ILocationManager.Stub {
             if (mockProvider == null) {
                 throw new IllegalArgumentException("Provider \"" + provider + "\" unknown");
             }
-	    
-	    // Ensure that the location is marked as being mock. There's some logic to do this in
+
+            // Ensure that the location is marked as being mock. There's some logic to do this in
             // handleLocationChanged(), but it fails if loc has the wrong provider (bug 33091107).
             Location mock = new Location(loc);
             mock.setIsFromMockProvider(true);
@@ -2566,7 +2566,7 @@ public class LocationManagerService extends ILocationManager.Stub {
                 EventLog.writeEvent(0x534e4554, "33091107", Binder.getCallingUid(),
                         provider + "!=" + loc.getProvider());
             }
-	    
+
             // clear calling identity so INSTALL_LOCATION_PROVIDER permission is not required
             long identity = Binder.clearCallingIdentity();
             mockProvider.setLocation(mock);

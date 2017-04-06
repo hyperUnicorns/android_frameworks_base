@@ -87,7 +87,7 @@ public class PersistentDataBlockService extends SystemService {
 
     @GuardedBy("mLock")
     private boolean mIsWritable = true;
-    
+
     public PersistentDataBlockService(Context context) {
         super(context);
         mContext = context;
@@ -380,11 +380,11 @@ public class PersistentDataBlockService extends SystemService {
             headerAndData.put(data);
 
             synchronized (mLock) {
-	    if (!mIsWritable) {
+                if (!mIsWritable) {
                     IoUtils.closeQuietly(outputStream);
                     return -1;
                 }
-		
+
                 try {
                     byte[] checksum = new byte[DIGEST_SIZE_BYTES];
                     outputStream.write(checksum, 0, DIGEST_SIZE_BYTES);
@@ -459,7 +459,7 @@ public class PersistentDataBlockService extends SystemService {
 
                 if (ret < 0) {
                     Slog.e(TAG, "failed to wipe persistent partition");
-		} else {
+                } else {
                     mIsWritable = false;
                     Slog.i(TAG, "persistent partition now wiped and unwritable");
                 }

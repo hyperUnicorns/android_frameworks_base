@@ -501,10 +501,22 @@ public abstract class QSTile<TState extends State> {
         public Drawable getDrawable(Context context) {
             return mDrawable;
         }
+    }
+
+    public static class DrawableIconWithRes extends DrawableIcon {
+        private final int mId;
+        private final int color;
+
+        public DrawableIconWithRes(Drawable drawable, int id, int stateColor) {
+            super(drawable);
+            mId = id;
+            color = stateColor;
+        }
 
         @Override
-        public Drawable getInvisibleDrawable(Context context) {
-            return mDrawable;
+        public boolean equals(Object o) {
+            return o instanceof DrawableIconWithRes && ((DrawableIconWithRes) o).mId == mId
+                    && ((DrawableIconWithRes) o).color == color;
         }
     }
 

@@ -332,14 +332,14 @@ public class Toast {
         };
 
         private final WindowManager.LayoutParams mParams = new WindowManager.LayoutParams();
-	
+
         private static final int SHOW = 0;
         private static final int HIDE = 1;
         private static final int CANCEL = 2;
         final Handler mHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-		switch (msg.what) {
+                switch (msg.what) {
                     case SHOW: {
                         IBinder token = (IBinder) msg.obj;
                         handleShow(token);
@@ -377,12 +377,12 @@ public class Toast {
 
         WindowManager mWM;
 
-	String mPackageName;
-	 
+        String mPackageName;
+
         static final long SHORT_DURATION_TIMEOUT = 5000;
         static final long LONG_DURATION_TIMEOUT = 10000;
 
-	TN(String packageName) {
+        TN(String packageName) {
             // XXX This should be changed to use a Dialog, with a Theme.Toast
             // defined that sets up the layout params appropriately.
             final WindowManager.LayoutParams params = mParams;
@@ -395,8 +395,8 @@ public class Toast {
             params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                     | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                     | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
-		    
-	    mPackageName = packageName;
+
+            mPackageName = packageName;
         }
 
         /**

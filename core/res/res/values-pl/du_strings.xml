@@ -61,4 +61,7 @@
   <string name="permlab_modifyOverlays">modyfikowanie tematu nakładek</string>
   <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
   <string name="permdesc_modifyOverlays">Umożliwia aplikacji wprowadzenia zmian do tematu nakładek przy użyciu OverlayManagerService</string>
+  <!-- One handed mode  -->
+  <string name="singlehandmode_click_hint_message">Dotknij miejsca poza ekranem, by opuścić tryb małego ekranu</string>
+  <string name="singlehandmode_slide_hint_message">Przesuń palcem po pasku nawigacyjnym, aby przełączać się między trybem standardowym i małego ekranu</string>
 </resources>

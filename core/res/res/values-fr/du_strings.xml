@@ -19,7 +19,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Vendor mismatched fingerprint warning -->
-  <string name="system_error_vendorprint">Il semble que votre \"vendor image\" soit obsolète. Veuillez installer la dernière version disponible pour votre appareil.</string>
+  <string name="system_error_vendorprint">Votre \"vendor image\" semble obsolète. Veuillez installer la dernière version disponible pour votre appareil.</string>
   <!-- ADB over network -->
   <string name="adb_net_active_notification_title">ADB par réseau activé</string>
   <string name="adb_both_active_notification_title">ADB par USB et réseau activé</string>
@@ -44,7 +44,7 @@
   <!-- Reboot Progress Dialog. This is shown if the user chooses to reboot the phone. -->
   <string name="reboot_progress">Redémarrage\u2026</string>
   <!-- Reboot Confirmation Dialog.  When the user chooses to reboot the phone, there will be a confirmation dialog.  This is the message. -->
-  <string name="reboot_confirm">Votre téléphone va redémarrer</string>
+  <string name="reboot_confirm">Votre appareil va redémarrer</string>
   <!-- label for item that reboots the phone in phone options dialog -->
   <string name="global_action_reboot">Redémarrer</string>
   <!-- screenshot in the power menu -->
@@ -61,4 +61,7 @@
   <string name="permlab_modifyOverlays">modifier les surcouches de thème</string>
   <!-- Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
   <string name="permdesc_modifyOverlays">Permet à l\'application de modifier les surcouches des thèmes utilisant OverlayManagerService</string>
+  <!-- One handed mode  -->
+  <string name="singlehandmode_click_hint_message">Appuyer à l\'extérieur de la vue réduite revenir à la vue standard</string>
+  <string name="singlehandmode_slide_hint_message">Faire glisser le doigt sur la barre de navigation, pour basculer entre la vue réduite et la vue standard</string>
 </resources>
