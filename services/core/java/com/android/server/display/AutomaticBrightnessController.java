@@ -52,11 +52,6 @@ class AutomaticBrightnessController {
     // fast debounce is used.
     private static final float BRIGHTENING_FAST_THRESHOLD = 1000f;
 
-    // Threshold (in lux) to select between normal and fast debounce time.
-    // If the difference between last sample and weighted value is larger than this value,
-    // fast debounce is used.
-    private static final float BRIGHTENING_FAST_THRESHOLD = 1000f;
-
     // How long the current sensor reading is assumed to be valid beyond the current time.
     // This provides a bit of prediction, as well as ensures that the weight for the last sample is
     // non-zero, which in turn ensures that the total weight is non-zero.
@@ -217,7 +212,6 @@ class AutomaticBrightnessController {
         mCurrentLightSensorRate = -1;
         mBrighteningLightFastDebounceConfig = brighteningLightFastDebounceConfig;
         mBrighteningLightDebounceConfig = brighteningLightDebounceConfig;
-        mBrighteningLightFastDebounceConfig = brighteningLightFastDebounceConfig;
         mDarkeningLightDebounceConfig = darkeningLightDebounceConfig;
         mResetAmbientLuxAfterWarmUpConfig = resetAmbientLuxAfterWarmUpConfig;
         mAmbientLightHorizon = ambientLightHorizon;

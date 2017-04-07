@@ -1534,60 +1534,6 @@ public class LockSettingsService extends ILockSettings.Stub {
         });
     }
 
-    private void notifyActivePasswordMetricsAvailable(final String password, int userId) {
-        final int quality = mLockPatternUtils.getKeyguardStoredPasswordQuality(userId);
-
-        // Asynchronous to avoid dead lock
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                int length = 0;
-                int letters = 0;
-                int uppercase = 0;
-                int lowercase = 0;
-                int numbers = 0;
-                int symbols = 0;
-                int nonletter = 0;
-                if (password != null) {
-                    length = password.length();
-                    for (int i = 0; i < length; i++) {
-                        char c = password.charAt(i);
-                        if (c >= 'A' && c <= 'Z') {
-                            letters++;
-                            uppercase++;
-                        } else if (c >= 'a' && c <= 'z') {
-                            letters++;
-                            lowercase++;
-                        } else if (c >= '0' && c <= '9') {
-                            numbers++;
-                            nonletter++;
-                        } else {
-                            symbols++;
-                            nonletter++;
-                        }
-                    }
-                }
-                DevicePolicyManager dpm = (DevicePolicyManager)
-                        mContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
-                dpm.setActivePasswordState(quality, length, letters, uppercase, lowercase, numbers,
-                        symbols, nonletter, userId);
-            }
-        });
-    }
-
-    /**
-     * Call after {@link #notifyActivePasswordMetricsAvailable} so metrics are updated before
-     * reporting the password changed.
-     */
-    private void notifyPasswordChanged(int userId) {
-        // Same handler as notifyActivePasswordMetricsAvailable to ensure correct ordering
-        mHandler.post(() -> {
-            DevicePolicyManager dpm = (DevicePolicyManager)
-                    mContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
-            dpm.reportPasswordChanged(userId);
-        });
-    }
-
     @Override
     public boolean checkVoldPassword(int userId) throws RemoteException {
         if (!mFirstCallToVold) {

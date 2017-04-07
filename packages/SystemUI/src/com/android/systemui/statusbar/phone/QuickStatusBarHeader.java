@@ -492,77 +492,6 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                     setQsPanelOffset();
                 }
             });
-<<<<<<< HEAD
-        }
-        if (mHeaderQsPanel != null) {
-            mHeaderQsPanel.updateSettings();
-        }
-        applyHeaderBackgroundShadow();
-    }
-
-    @Override
-    public void updateHeader(final Drawable headerImage, final boolean force) {
-        post(new Runnable() {
-             public void run() {
-                doUpdateStatusBarCustomHeader(headerImage, force);
-            }
-        });
-    }
-
-    @Override
-    public void disableHeader() {
-        post(new Runnable() {
-             public void run() {
-                mCurrentBackground = null;
-                mBackgroundImage.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    private void doUpdateStatusBarCustomHeader(final Drawable next, final boolean force) {
-        if (next != null) {
-            if (next != mCurrentBackground) {
-                mBackgroundImage.setVisibility(View.VISIBLE);
-                setNotificationPanelHeaderBackground(next, force);
-                mCurrentBackground = next;
-            }
-        } else {
-            mCurrentBackground = null;
-            mBackgroundImage.setVisibility(View.GONE);
-        }
-    }
-
-    private void setNotificationPanelHeaderBackground(final Drawable dw, final boolean force) {
-        if (mBackgroundImage.getDrawable() != null && !force) {
-            Drawable[] arrayDrawable = new Drawable[2];
-            arrayDrawable[0] = mBackgroundImage.getDrawable();
-            arrayDrawable[1] = dw;
-
-            TransitionDrawable transitionDrawable = new TransitionDrawable(arrayDrawable);
-            transitionDrawable.setCrossFadeEnabled(true);
-            mBackgroundImage.setImageDrawable(transitionDrawable);
-            transitionDrawable.startTransition(1000);
-        } else {
-            mBackgroundImage.setImageDrawable(dw);
-        }
-        applyHeaderBackgroundShadow();
-    }
-
-    private void applyHeaderBackgroundShadow() {
-        final int headerShadow = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW, 80,
-                UserHandle.USER_CURRENT);
-
-        if (mBackgroundImage != null) {
-            if (headerShadow != 0) {
-                ColorDrawable shadow = new ColorDrawable(Color.BLACK);
-                shadow.setAlpha(headerShadow);
-                mBackgroundImage.setForeground(shadow);
-            } else {
-                mBackgroundImage.setForeground(null);
-            }
-=======
->>>>>>> 2da3f21e75fd8cee0f0e328aee0856e8abf666a0
         }
         if (mHeaderQsPanel != null) {
             mHeaderQsPanel.updateSettings();
@@ -657,23 +586,4 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         mBackgroundImage.setLayoutParams(p);
     }
 
-    @Override
-    public void onClosingFinished() {
-        mQuickQsPanelScroller.scrollTo(0, 0);
-    }
-
-    private void setQsPanelOffset() {
-        final boolean customHeader = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.STATUS_BAR_CUSTOM_HEADER, 0,
-                UserHandle.USER_CURRENT) != 0;
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mQsPanel.getLayoutParams();
-        params.setMargins(0, customHeader ? mQsPanelOffsetHeader : mQsPanelOffsetNormal, 0, 0);
-        mQsPanel.setLayoutParams(params);
-    }
-
-    private void setHeaderImageHeight() {
-        LinearLayout.LayoutParams p = (LinearLayout.LayoutParams) mBackgroundImage.getLayoutParams();
-        p.height = getExpandedHeight();
-        mBackgroundImage.setLayoutParams(p);
-    }
 }

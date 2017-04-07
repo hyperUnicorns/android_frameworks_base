@@ -646,10 +646,7 @@ public final class PowerManagerService extends SystemService
             mScreenBrightnessSettingDefault = pm.getDefaultScreenBrightnessSetting();
             mButtonBrightnessSettingDefault = pm.getDefaultButtonBrightness();
             mKeyboardBrightnessSettingDefault = pm.getDefaultKeyboardBrightness();
-<<<<<<< HEAD
-=======
             mScreenBrightnessForVrSettingDefault = pm.getDefaultScreenBrightnessForVrSetting();
->>>>>>> 2da3f21e75fd8cee0f0e328aee0856e8abf666a0
 
             SensorManager sensorManager = new SystemSensorManager(mContext, mHandler.getLooper());
 
@@ -746,16 +743,12 @@ public final class PowerManagerService extends SystemService
             resolver.registerContentObserver(Settings.Global.getUriFor(
                     Settings.Global.WAKE_WHEN_PLUGGED_OR_UNPLUGGED),
                     false, mSettingsObserver, UserHandle.USER_ALL);
-<<<<<<< HEAD
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.WAKELOCK_BLOCKING_ENABLED),
                     false, mSettingsObserver, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.WAKELOCK_BLOCKING_LIST),
                     false, mSettingsObserver, UserHandle.USER_ALL);
-=======
-
->>>>>>> 2da3f21e75fd8cee0f0e328aee0856e8abf666a0
             IVrManager vrManager =
                     (IVrManager) getBinderService(VrManagerService.VR_MANAGER_BINDER_SERVICE);
             if (vrManager != null) {
@@ -4139,16 +4132,6 @@ public final class PowerManagerService extends SystemService
             String[] parts = wakeLockTagsString.split("\\|");
             for (int i = 0; i < parts.length; i++) {
                 mBlockedWakeLocks.add(parts[i]);
-            }
-        }
-    }
-
-    private void setButtonBrightnessOverrideFromWindowManagerInternal(int brightness) {
-        synchronized (mLock) {
-            if (mButtonBrightnessOverrideFromWindowManager != brightness) {
-                mButtonBrightnessOverrideFromWindowManager = brightness;
-                mDirty |= DIRTY_SETTINGS;
-                updatePowerStateLocked();
             }
         }
     }
