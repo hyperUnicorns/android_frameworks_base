@@ -22,6 +22,7 @@ import com.android.internal.location.GpsNetInitiatedHandler;
 import com.android.internal.location.GpsNetInitiatedHandler.GpsNiNotification;
 import com.android.internal.location.ProviderProperties;
 import com.android.internal.location.ProviderRequest;
+import com.android.internal.telephony.TelephonyProperties;
 
 import android.app.AlarmManager;
 import android.app.AppOpsManager;
@@ -1504,6 +1505,14 @@ public class GnssLocationProvider implements LocationProviderInterface {
     }
 
     private boolean hasCapability(int capability) {
+        if (((capability & GPS_CAPABILITY_MSB) != 0) &&
+            ((mEngineCapabilities & capability) == 0)) {
+            String baseband =
+                SystemProperties.get(TelephonyProperties.PROPERTY_BASEBAND_VERSION, null);
+            if (baseband != null && baseband.matches("(.*)4\\.0\\.1(.*)")) {
+                mEngineCapabilities |= GPS_CAPABILITY_MSB;
+            }
+        }
         return ((mEngineCapabilities & capability) != 0);
     }
 
