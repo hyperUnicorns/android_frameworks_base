@@ -235,7 +235,7 @@ void RenderState::postDecStrong(VirtualLightRefBase* object) {
 // Render
 ///////////////////////////////////////////////////////////////////////////////
 
-void RenderState::render(const Glop& glop, const Matrix4& orthoMatrix, bool firstDraw) {
+void RenderState::render(const Glop& glop, const Matrix4& orthoMatrix) {
     const Glop::Mesh& mesh = glop.mesh;
     const Glop::Mesh::Vertices& vertices = mesh.vertices;
     const Glop::Mesh::Indices& indices = mesh.indices;
@@ -262,11 +262,6 @@ void RenderState::render(const Glop& glop, const Matrix4& orthoMatrix, bool firs
         const FloatColor& color = fill.filter.color;
         glUniform4f(mCaches->program().getUniform("colorBlend"),
                 color.r, color.g, color.b, color.a);
-    } else if (fill.filterMode == ProgramDescription::ColorFilterMode::SimpleMatrix) {
-        // Fast path shader where vector components are used as follows:
-        // X = RGB addition, Y = Alpha addition, Z = RGB multiplier, W = alpha multiplier
-        glUniform4fv(mCaches->program().getUniform("colorMatrixPacked"), 1,
-                fill.filter.matrix.vector);
     } else if (fill.filterMode == ProgramDescription::ColorFilterMode::Matrix) {
         glUniformMatrix4fv(mCaches->program().getUniform("colorMatrix"), 1, GL_FALSE,
                 fill.filter.matrix.matrix);
@@ -361,12 +356,7 @@ void RenderState::render(const Glop& glop, const Matrix4& orthoMatrix, bool firs
     // ------------------------------------
     // ---------- GL state setup ----------
     // ------------------------------------
-    if (firstDraw) {
-        // Disable blending for first draw to optimise badly behaved applications
-        blend().setFactors(GL_ZERO, GL_ZERO);
-    } else {
-        blend().setFactors(glop.blend.src, glop.blend.dst);
-    }
+    blend().setFactors(glop.blend.src, glop.blend.dst);
 
     GL_CHECKPOINT(MODERATE);
 
