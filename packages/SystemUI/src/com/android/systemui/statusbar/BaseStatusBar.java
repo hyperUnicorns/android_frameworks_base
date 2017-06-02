@@ -1452,12 +1452,20 @@ public abstract class BaseStatusBar extends SystemUI implements
         public boolean onTouch(View v, MotionEvent event) {
             int action = event.getAction() & MotionEvent.ACTION_MASK;
             if (action == MotionEvent.ACTION_DOWN) {
-                preloadRecents();
+                if (mOmniSwitchRecents) {
+                    DuUtils.preloadOmniSwitchRecents(mContext, UserHandle.CURRENT);
+                } else {
+                    preloadRecents();
+                }
             } else if (action == MotionEvent.ACTION_CANCEL) {
-                cancelPreloadingRecents();
+                if (!mOmniSwitchRecents) {
+                    cancelPreloadingRecents();
+                }
             } else if (action == MotionEvent.ACTION_UP) {
                 if (!v.isPressed()) {
-                    cancelPreloadingRecents();
+                    if (!mOmniSwitchRecents) {
+                        cancelPreloadingRecents();
+                    }
                 }
 
             }
@@ -1501,7 +1509,10 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected void preloadRecents() {
         if (!mOmniSwitchRecents && mRecents != null) {
             mRecents.preloadRecents();
+        } else {
+            DuUtils.preloadOmniSwitchRecents(mContext, UserHandle.CURRENT);
         }
+
     }
 
     protected void toggleKeyboardShortcuts(int deviceId) {
