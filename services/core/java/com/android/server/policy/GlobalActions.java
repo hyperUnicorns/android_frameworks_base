@@ -1643,6 +1643,6 @@ class GlobalActions implements DialogInterface.OnDismissListener, DialogInterfac
 
     private void checkSettings() {
         mScreenshotDelay = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.SCREENSHOT_DELAY, 50);
+                Settings.System.SCREENSHOT_DELAY, 100);
     }
 }
