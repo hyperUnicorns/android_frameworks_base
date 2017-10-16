@@ -63,4 +63,9 @@
         <item name="widgetLayout">@*android:layout/preference_widget_switch</item>
     </style>
 
+    <!-- Status bar notification ticker -->
+    <style name="TextAppearance.StatusBar.PhoneTicker" parent="@*android:style/TextAppearance.StatusBar.Ticker">
+        <item name="android:textSize">14dp</item>
+    </style>
+
 </resources>
