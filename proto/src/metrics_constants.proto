@@ -3976,5 +3976,11 @@ message MetricsEvent {
 
     // Add new aosp constants above this line.
     // END OF AOSP CONSTANTS
+
+    // Quick settings tiles
+    CUSTOM_QUICK_TILES = 1000;
+
+    // DU tweaks
+    DIRTYTWEAKS = 1001;
   }
 }
