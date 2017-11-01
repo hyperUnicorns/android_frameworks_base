@@ -29,4 +29,7 @@
     <!-- Notification: Menu row: Snooze options: 1 hour option. [CHAR LIMIT=50]-->
     <string name="snooze_option_24_hour">24 hours</string>
 
+    <!-- SystemUI Tuner Parts -->
+    <string name="systemui_tuner_icon_manager_title">Icon manager</string>
+
 </resources>

@@ -65,7 +65,7 @@ import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.NextAlarmController.NextAlarmChangeCallback;
 import com.android.systemui.statusbar.policy.UserInfoController;
 import com.android.systemui.statusbar.policy.UserInfoController.OnUserInfoChangedListener;
-import com.android.systemui.tuner.TunerService;
+//import com.android.systemui.tuner.TunerService;
 
 public class QSFooter extends FrameLayout implements
         NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener, EmergencyListener,
@@ -330,8 +330,8 @@ public class QSFooter extends FrameLayout implements
 
     private void updateVisibilities() {
         updateAlarmVisibilities();
-        mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(
-                TunerService.isTunerEnabled(mContext) ? View.VISIBLE : View.INVISIBLE);
+        //mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(
+        //        TunerService.isTunerEnabled(mContext) ? View.VISIBLE : View.INVISIBLE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
 
         mMultiUserSwitch.setVisibility((mExpanded || mAlwaysShowMultiUserSwitch)
@@ -377,24 +377,25 @@ public class QSFooter extends FrameLayout implements
             MetricsLogger.action(mContext,
                     mExpanded ? MetricsProto.MetricsEvent.ACTION_QS_EXPANDED_SETTINGS_LAUNCH
                             : MetricsProto.MetricsEvent.ACTION_QS_COLLAPSED_SETTINGS_LAUNCH);
-            if (mSettingsButton.isTunerClick()) {
-                Dependency.get(ActivityStarter.class).postQSRunnableDismissingKeyguard(() -> {
-                    if (TunerService.isTunerEnabled(mContext)) {
-                        TunerService.showResetRequest(mContext, () -> {
-                            // Relaunch settings so that the tuner disappears.
-                            startSettingsActivity();
-                        });
-                    } else {
-                        Toast.makeText(getContext(), R.string.tuner_toast,
-                                Toast.LENGTH_LONG).show();
-                        TunerService.setTunerEnabled(mContext, true);
-                    }
-                    startSettingsActivity();
-
-                });
-            } else {
-                startSettingsActivity();
-            }
+            //if (mSettingsButton.isTunerClick()) {
+            //    Dependency.get(ActivityStarter.class).postQSRunnableDismissingKeyguard(() -> {
+            //        if (TunerService.isTunerEnabled(mContext)) {
+            //            TunerService.showResetRequest(mContext, () -> {
+            //                // Relaunch settings so that the tuner disappears.
+            //                startSettingsActivity();
+            //            });
+            //        } else {
+            //            Toast.makeText(getContext(), R.string.tuner_toast,
+            //                    Toast.LENGTH_LONG).show();
+            //            TunerService.setTunerEnabled(mContext, true);
+            //        }
+            //        startSettingsActivity();
+            //
+            //    });
+            //} else {
+            //    startSettingsActivity();
+            //}
+            startSettingsActivity();
         } else if (v == mDateTimeGroup) {
             Dependency.get(MetricsLogger.class).action(ACTION_QS_DATE,
                     mNextAlarm != null);
