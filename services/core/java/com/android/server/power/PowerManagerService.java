@@ -136,8 +136,6 @@ public final class PowerManagerService extends SystemService
     private static final int MSG_CHECK_FOR_LONG_WAKELOCKS = 4;
     private static final int MSG_WAKE_UP = 5;
 
-    private static final int MSG_WAKE_UP = 5;
-
     // Dirty bit: mWakeLocks changed
     protected static final int DIRTY_WAKE_LOCKS = 1 << 0;
     // Dirty bit: mWakefulness changed

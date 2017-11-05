@@ -1280,32 +1280,6 @@ public class DeviceIdleController extends SystemService
                 FileDescriptor err, String[] args, ShellCallback callback, ResultReceiver resultReceiver) {
             (new Shell()).exec(this, in, out, err, args, callback, resultReceiver);
         }
-
-        @Override public void addSystemPowerSaveWhitelistApp(String name) {
-            getContext().enforceCallingOrSelfPermission(android.Manifest.permission.DEVICE_POWER,
-                    null);
-            long ident = Binder.clearCallingIdentity();
-            try {
-                addSystemPowerSaveWhitelistAppInternal(name);
-            } finally {
-                Binder.restoreCallingIdentity(ident);
-            }
-        }
-
-        @Override public void removeSystemPowerSaveWhitelistApp(String name) {
-            getContext().enforceCallingOrSelfPermission(android.Manifest.permission.DEVICE_POWER,
-                    null);
-            long ident = Binder.clearCallingIdentity();
-            try {
-                removeSystemPowerSaveWhitelistAppInternal(name);
-            } finally {
-                Binder.restoreCallingIdentity(ident);
-            }
-        }
-
-        @Override public String[] getSystemPowerWhitelistOriginal() {
-            return getSystemPowerWhitelistOriginalInternal();
-        }
     }
 
     public class LocalService {
