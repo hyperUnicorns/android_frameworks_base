@@ -5568,6 +5568,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.QS_LAYOUT_COLUMNS),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.QS_TILE_TITLE_VISIBILITY),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -5584,6 +5587,8 @@ public class StatusBar extends SystemUI implements DemoMode,
                     Settings.System.STATUS_BAR_SHOW_TICKER))) {
                 updateTickerSettings();
                 initTickerView();
+            } else if (uri.equals(Settings.Secure.getUriFor(
+                    Settings.Secure.QS_TILE_TITLE_VISIBILITY))) {
             }
         }
 
